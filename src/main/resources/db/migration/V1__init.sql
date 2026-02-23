@@ -1,0 +1,2 @@
+-- Placeholder initial migration (Flyway)
+-- Add CREATE TABLE statements here as you design the schema.

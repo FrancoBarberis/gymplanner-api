@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: gymplanner-api
+# datasource:
+#   url: jdbc:postgresql://localhost:5432/gymplanner
+#   username: youruser
+#   password: yourpassword
+server:
+  port: 8080
