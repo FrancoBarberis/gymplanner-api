@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserDtos {
+public class UserDto {
 
     // Lo que el cliente (React) envía para crear un usuario
     public record CreateRequest(
