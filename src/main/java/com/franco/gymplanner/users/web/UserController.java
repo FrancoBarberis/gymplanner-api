@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //TODO: Cambiar a leer usuarios
+    // TODO: Cambiar a leer usuarios
     @GetMapping("/ping")             // GET /api/v1/users/ping
     public String ping() {
         return "API funcionando correctamente";
