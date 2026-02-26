@@ -1,34 +1,30 @@
 package com.franco.gymplanner.users.web.dto;
 
+import com.franco.gymplanner.users.model.AccountStatus;
+import com.franco.gymplanner.users.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class UserDto {
+public final class UserDto {
 
-    // Lo que el cliente (React) envía para crear un usuario
     public record CreateRequest(
-
-            @NotBlank(message = "El email es obligatorio")
-            @Email(message = "Email inválido") 
-            String email,
-
-            @NotBlank(message = "La contraseña es obligatoria")
-            @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
-            String password,
-
-            @NotBlank(message = "El nombre es obligatorio")
-            String fullName,
-
-            @NotBlank 
-            String role
+            @NotBlank @Size(max = 120) String fullName,
+            @NotBlank @Email @Size(max = 180) String email,
+            @NotBlank String password,
+            @NotNull Role role // STUDENT o TRAINER (ADMIN solo lo crea un ADMIN)
     ) {}
 
-    // Lo que devolvemos al cliente (nunca devolver password)
     public record Response(
-            String id,
-            String email,
+            Long id,
             String fullName,
-            String role
+            String email,
+            Role role,
+            AccountStatus status
+    ) {}
+
+    public record UpdateRoleRequest(
+            @NotNull Role role
     ) {}
 }
