@@ -1,37 +1,41 @@
 package com.franco.gymplanner.users.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import java.net.URI;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import com.franco.gymplanner.users.service.UserService;
 import com.franco.gymplanner.users.web.dto.UserDto;
 
-@RestController                      // Declara que esta clase expone endpoints REST
-@RequestMapping("/api/v1/users")     // Ruta base del controller
+@RestController
+@RequestMapping("/api/v1/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    // TODO: Cambiar a leer usuarios
-    @GetMapping("/ping")             // GET /api/v1/users/ping
+    // Inyección por constructor (recomendada)
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // GET /api/v1/users/ping
+    @GetMapping(value = "/ping")
     public String ping() {
         return "API funcionando correctamente";
     }
 
-    @PostMapping("/add")
+    // POST /api/v1/users/add
+    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json", name = "createUserMapping")
     public ResponseEntity<UserDto.Response> create(@Valid @RequestBody UserDto.CreateRequest dto) {
-        // 1. Controller recibe la solicitud (validada por @Valid)
-        // 2. Delega al service
-        // 3. Retorna la respuesta
-        UserDto.Response response = userService.createUser(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        // 1) Validado el DTO por @Valid
+        // 2) Delegamos la lógica al service
+        UserDto.Response resp = userService.createUser(dto);
+
+        // 3) Devolvemos 201 Created + Location + body de respuesta
+        return ResponseEntity
+                .created(URI.create("/api/v1/users/" + resp.id()))
+                .body(resp);
     }
 }

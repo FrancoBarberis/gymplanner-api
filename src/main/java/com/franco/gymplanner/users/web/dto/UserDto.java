@@ -9,7 +9,7 @@ public class UserDto {
     // Lo que el cliente (React) envía para crear un usuario
     public record CreateRequest(
 
-            @NotBlank(message = "El email es obligatorio") 
+            @NotBlank(message = "El email es obligatorio")
             @Email(message = "Email inválido") 
             String email,
 
