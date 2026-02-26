@@ -43,6 +43,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id));
     }
 
+    // GET /api/v1/users/students/pending-routines
+    @GetMapping("/students/pending-routines")
+    @PreAuthorize("hasRole('TRAINER')")
+    public ResponseEntity<List<UserDto.Response>> listStudentsWithPendingRoutines() {
+        return ResponseEntity.ok(userService.listStudentsWithPendingRoutines());
+    }
+
     // --- Endpoints solo para ADMIN ---
 
     // Lista de entrenadores pendientes de aprobación
@@ -66,10 +73,18 @@ public class UserController {
         return ResponseEntity.ok(userService.rejectTrainer(id));
     }
 
-    // GET /api/v1/users/students/pending-routines
-    @GetMapping("/students/pending-routines")
-    @PreAuthorize("hasRole('TRAINER')")
-    public ResponseEntity<List<UserDto.Response>> listStudentsWithPendingRoutines() {
-        return ResponseEntity.ok(userService.listStudentsWithPendingRoutines());
+    // Bannear usuario
+    @PatchMapping("/{id}/ban")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDto.Response> banUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.banUser(id));
     }
+
+    // Desbanear usuario
+    @PatchMapping("/{id}/unban")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDto.Response> unbanUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.unbanUser(id));
+    }
+
 }

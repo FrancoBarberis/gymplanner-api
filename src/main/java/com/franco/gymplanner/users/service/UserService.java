@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -86,6 +85,26 @@ public class UserService {
 
         u.setStatus(AccountStatus.REJECTED);
         u.setEnabled(false);
+
+        return toResponse(u);
+    }
+
+    public UserDto.Response banUser(Long id) {
+        User u = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        u.setStatus(AccountStatus.SUSPENDED);
+        u.setEnabled(false);
+
+        return toResponse(u);
+    }
+
+    public UserDto.Response unbanUser(Long id) {
+        User u = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
+        u.setStatus(AccountStatus.ACTIVE);
+        u.setEnabled(true);
 
         return toResponse(u);
     }
