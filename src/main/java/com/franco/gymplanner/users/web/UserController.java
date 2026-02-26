@@ -25,7 +25,7 @@ public class UserController {
     // GET /api/v1/users/ping
     @GetMapping("/ping")
     public String ping() {
-        return "API funcionando correctamente";
+        return "Feature de usuarios funcionando correctamente";
     }
 
     // POST /api/v1/users/add
