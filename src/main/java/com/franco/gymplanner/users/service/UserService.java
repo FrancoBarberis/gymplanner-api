@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,6 +57,11 @@ public class UserService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    public List<UserDto.Response> listStudentsWithPendingRoutines() {
+        // TODO: implementar cuando RoutineRequest esté lista
+        return List.of();
     }
 
     public UserDto.Response approveTrainer(Long id) {

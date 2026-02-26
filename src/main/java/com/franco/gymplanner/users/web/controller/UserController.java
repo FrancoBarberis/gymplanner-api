@@ -1,4 +1,4 @@
-package com.franco.gymplanner.users.web;
+package com.franco.gymplanner.users.web.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -64,5 +64,12 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDto.Response> rejectTrainer(@PathVariable Long id) {
         return ResponseEntity.ok(userService.rejectTrainer(id));
+    }
+
+    // GET /api/v1/users/students/pending-routines
+    @GetMapping("/students/pending-routines")
+    @PreAuthorize("hasRole('TRAINER')")
+    public ResponseEntity<List<UserDto.Response>> listStudentsWithPendingRoutines() {
+        return ResponseEntity.ok(userService.listStudentsWithPendingRoutines());
     }
 }
